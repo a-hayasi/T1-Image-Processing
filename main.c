@@ -93,8 +93,6 @@ void brush_smoothing(int rows, int columns, pixel matrix[rows][columns]){
         }
     }
 
-    //memcpy(matrix_aux, matrix, sizeof(columns * rows * sizeof(int)));
-
     for (i = 1; i < rows-1; i++){
         for (j = 1; j < columns-1; j++){
             matrix[i][j].R = (matrix_aux[i-1][j-1].R + matrix_aux[i-1][j].R + matrix_aux[i-1][j+1].R + \
@@ -155,25 +153,22 @@ void sepia(int rows, int columns, pixel matrix[rows][columns]){
 
 
 int main(){
-
     char effect_choice[4];
-
-    if(fgets(effect_choice, 4, stdin)==NULL)
-        return 0;
-
     int L, C;
-    scanf("%d %d", &L, &C);
-    pixel matrix[L][C];
 
+    scanf("%s", effect_choice);
+    scanf("%d %d", &L, &C);
+
+    pixel matrix[L][C];
 
     if(strcmp(effect_choice, "CIN") == 0){
         input_matrix(L, C, matrix);
         grayscale(L, C, matrix);
-    } //ok
+    }
     else if(strcmp(effect_choice, "INV") == 0){
         input_matrix(L, C, matrix);
         invert_colors(L, C, matrix);
-    } //ok
+    }
     else if(strcmp(effect_choice, "LIM") == 0){
         int l;
         scanf("%d", &l);
@@ -199,9 +194,11 @@ int main(){
     else if(strcmp(effect_choice, "SEP") == 0){
         input_matrix(L, C, matrix);
         sepia(L, C, matrix);
-    } //ok
-    else
+    }
+    else{
         printf("Error\n");
+        return -1;
+    }
 
     print_matrix(L, C, matrix);
 
